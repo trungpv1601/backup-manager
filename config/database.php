@@ -10,6 +10,8 @@ return [
         'database' => 'test',
         'singleTransaction' => false,
         'ignoreTables' => [],
+        'mysqldumpPath' => 'mysqldump',
+        'mysqlPath' => 'mysql',
     ],
     'production' => [
         'type' => 'postgresql',

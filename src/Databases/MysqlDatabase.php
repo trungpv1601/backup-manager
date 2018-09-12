@@ -52,8 +52,8 @@ class MysqlDatabase implements Database {
     	        $params.=sprintf(' --%s=%s', $mysqlParam, escapeshellarg($this->config[$key]));
             }
         }
-
-    	$command = 'mysqldump --routines '.implode(' ', $extras).'%s %s > %s';
+        $mysqldump = (array_key_exists('mysqldumpPath', $this->config) && $this->config['mysqldumpPath']) ? $this->config['mysqldumpPath'] : 'mysqldump';
+    	$command = $mysqldump . ' --routines '.implode(' ', $extras).'%s %s > %s';
         return sprintf($command,
             $params,
             escapeshellarg($this->config['database']),
@@ -79,8 +79,9 @@ class MysqlDatabase implements Database {
                 $params.=sprintf(' --%s=%s', $mysqlParam, escapeshellarg($this->config[$key]));
             }
         }
+        $mysql = (array_key_exists('mysqlPath', $this->config) && $this->config['mysqlPath']) ? $this->config['mysqlPath'] : 'mysql';
 
-        return sprintf('mysql%s '.implode(' ', $extras).' %s -e "source %s"',
+        return sprintf($mysql . '%s '.implode(' ', $extras).' %s -e "source %s"',
             $params,
             escapeshellarg($this->config['database']),
             $inputPath
